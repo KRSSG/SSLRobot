@@ -26,9 +26,9 @@ namespace Strategy {
 
   void Robot::beliefStateCallback(const krssg_ssl_msgs::BeliefState::ConstPtr &bs) {
     using namespace krssg_ssl_msgs;
-    printf("got beliefState\n");
+    // printf("got beliefState\n");
 
-    printf("bot %d: (%f, %f)\n", botID, bs->homePos[botID].x, bs->homePos[botID].y);
+    // printf("bot %d: (%f, %f)\n", botID, bs->homePos[botID].x, bs->homePos[botID].y);
     if (gotTacticPacket) {
       gotTacticPacket = false;
       curTactic = TacticFactory::instance()->Create(tID, botID);
@@ -42,7 +42,7 @@ namespace Strategy {
     commandPub.publish(command);
   }
   void Robot::tacticPacketCallback(const krssg_ssl_msgs::TacticPacket::ConstPtr& tp) {
-    printf("got tactic packet.\n");
+    printf("got tactic packet for bot (%d), tactic = (%s)\n", botID, tp->tID.c_str());
     tParamJSON = tp->tParamJSON;
     tID = tp->tID;
     gotTacticPacket =  true;

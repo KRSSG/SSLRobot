@@ -14,17 +14,22 @@ int main(int argc, char  *argv[])
   using namespace Strategy;
   ros::init(argc, argv, "test_play_node");
   ros::NodeHandle n;
-  ros::Publisher tp_pub = n.advertise<krssg_ssl_msgs::TacticPacket>("tactic_0", 1000);
+  ros::Publisher tp0_pub = n.advertise<krssg_ssl_msgs::TacticPacket>("tactic_0", 1000);
+  ros::Publisher tp1_pub = n.advertise<krssg_ssl_msgs::TacticPacket>("tactic_1", 1000);
+  krssg_ssl_msgs::TacticPacket tp0, tp1;
+  ros::Rate loop_rate(1);
+  tp0.tID = std::string("TPosition");
+  Tactic::Param tParam;
+  tp0.tParamJSON = TacticFactory::instance()->Create("TPosition", 0)->paramToJSON(tParam); // bot id really doesnt matter here
+
+  tp1.tID = std::string("TKickToGoal");
+  tp1.tParamJSON = TacticFactory::instance()->Create("TKickToGoal", 0)->paramToJSON(tParam); // bot id really doesnt matter here
   while (ros::ok()) {
-    krssg_ssl_msgs::TacticPacket tp;
-    tp.tID = std::string("TPosition");
-    double x, y;
-    printf("enter gotopoint coordinates:\n");
-    Tactic::Param tParam;
-    scanf("%f %f", &tParam.PositionP.x, &tParam.PositionP.y);
-    tp.tParamJSON = TacticFactory::instance()->Create("TPosition", 0)->paramToJSON(tParam); // bot id really doesnt matter here
-    tp_pub.publish(tp);
+   
+    tp0_pub.publish(tp0);
+    tp1_pub.publish(tp1);
     ros::spinOnce();
+    loop_rate.sleep();
   }
   return 0;
 }

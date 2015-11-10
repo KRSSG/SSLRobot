@@ -12,8 +12,14 @@ find_package(catkin REQUIRED COMPONENTS
   krssg_ssl_msgs
   tactics
   skills
+  robojackets
 )
 
+set(CMAKE_CXX_COMPILER /usr/bin/g++-4.9)
+set(CMAKE_C_COMPILER /usr/bin/gcc-4.9)
+
+message("compiler = " "${CMAKE_CXX_COMPILER}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -169,6 +175,9 @@ include_directories(include include/ssl_robot ${catkin_INCLUDE_DIRS})
 
 add_executable(robot src/robot.cpp src/node.cpp)
 target_link_libraries(robot ${catkin_LIBRARIES})
+
+add_executable(rj_robot src/rj_robot.cpp src/rj_node.cpp)
+target_link_libraries(rj_robot ${catkin_LIBRARIES})
 
 add_executable(test_play_node src/test_play_node.cpp)
 target_link_libraries(test_play_node ${catkin_LIBRARIES})
