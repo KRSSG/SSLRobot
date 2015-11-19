@@ -5,6 +5,7 @@
 #include <krssg_ssl_msgs/BeliefState.h>
 #include <krssg_ssl_msgs/gr_Commands.h>
 #include <krssg_ssl_msgs/TacticPacket.h>
+#include <krssg_ssl_msgs/sslDebug_Data.h>
 #include <string>
 
 
@@ -44,6 +45,9 @@ namespace Strategy
 
     // bot command publisher
     ros::Publisher commandPub;
+
+    // debug data publishers
+    ros::Publisher debugPub;
 
     // pointer to current tactic
     std::auto_ptr<Tactic> curTactic;

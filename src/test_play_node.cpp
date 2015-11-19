@@ -16,6 +16,10 @@ int main(int argc, char  *argv[])
   ros::NodeHandle n;
   ros::Publisher tp0_pub = n.advertise<krssg_ssl_msgs::TacticPacket>("tactic_0", 1000);
   ros::Publisher tp1_pub = n.advertise<krssg_ssl_msgs::TacticPacket>("tactic_1", 1000);
+  ros::Publisher tp2_pub = n.advertise<krssg_ssl_msgs::TacticPacket>("tactic_2", 1000);
+  ros::Publisher tp3_pub = n.advertise<krssg_ssl_msgs::TacticPacket>("tactic_3", 1000);
+  ros::Publisher tp4_pub = n.advertise<krssg_ssl_msgs::TacticPacket>("tactic_4", 1000);
+
   krssg_ssl_msgs::TacticPacket tp0, tp1;
   ros::Rate loop_rate(1);
   tp0.tID = std::string("TPosition");
