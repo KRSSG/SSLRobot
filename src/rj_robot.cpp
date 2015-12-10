@@ -80,6 +80,15 @@ namespace Strategy {
     command.isteamyellow = bs->isteamyellow;
     commandPub.publish(command);
 
+    float angleError, motionError;
+    motionError = MotionControl::motionError(path.get(), mc.get(), robot_pos).mag();
+    angleError = MotionControl::angleError(rc.get(), robot_pos, robot_angle);
+    // printf("motionError, angleError = (%f, %f)\n", motionError, angleError);
+    // motion max = 0.099, angle max = 0.61
+    motionError = motionError/0.099 > 1? 1: motionError/0.099;
+    angleError = angleError/0.61 > 1? 1: angleError/0.61;
+
+    float color = Point(motionError, angleError).mag()/sqrt(2.);
     // make the debug lines and circles
     sslDebug_Data msg;
     msg.id = ros::this_node::getName();
@@ -88,17 +97,18 @@ namespace Strategy {
     sslDebug_Circle c_start;
     c_start.x = robot_pos.x*1000.;
     c_start.y = robot_pos.y*1000.;
-    c_start.radius = BOT_RADIUS*1.5;
-    c_start.color = 1;
+    c_start.radius = BOT_RADIUS*1.1;
+    c_start.color = color;
     msg.circle.push_back(c_start);
 
     // destination circle
     sslDebug_Circle c_dest;
     c_dest.x = dpoint.x*1000.;
     c_dest.y = dpoint.y*1000.;
-    c_dest.radius = BOT_RADIUS*1.5;
-    c_dest.color = 3;
+    c_dest.radius = BOT_RADIUS*1.1;
+    c_dest.color = color;
     msg.circle.push_back(c_dest);
+
 
     // lines for waypoints
     // Get the closest step size to a desired value that is divisible into the
@@ -118,7 +128,7 @@ namespace Strategy {
         l.y1 = prevPoint.y*1000.;
         l.x2 = pt.x*1000.;
         l.y2 = pt.y*1000.;
-        l.color = 4;
+        l.color = color;
         msg.line.push_back(l);
         prevPoint = pt;
     }
@@ -131,7 +141,7 @@ namespace Strategy {
       l.y1 = prevPoint.y*1000.;
       l.x2 = pt.x*1000.;
       l.y2 = pt.y*1000.;
-      l.color = 4;
+      l.color = color;
       msg.line.push_back(l);
       prevPoint = pt;
     }
