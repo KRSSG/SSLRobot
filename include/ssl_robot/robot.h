@@ -18,7 +18,7 @@ namespace Strategy
 
     void beliefStateCallback(const krssg_ssl_msgs::BeliefState::ConstPtr& bs);
     void tacticPacketCallback(const krssg_ssl_msgs::TacticPacket::ConstPtr& tp);
-  private:
+  
     int            botID;
     // Belief State object 
     krssg_ssl_msgs::BeliefState   bs;
@@ -40,7 +40,7 @@ namespace Strategy
     // Stores the current tactic's parameters and is controlled by the Play Layer
     Tactic::Param  curParam;
   public:
-    Robot(int          botID, ros::NodeHandle &n);
+    Robot(int botID, ros::NodeHandle &n);
 
     ~Robot();
   }; // class Robot
