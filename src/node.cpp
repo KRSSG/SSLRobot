@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
   }
   // create robot object
   Robot robot(botID, n);
-  ros::Subscriber bs_sub = n.subscribe("/belief_state", 1000, &Robot::beliefStateCallback, &robot);
   ros::Subscriber tp_sub = n.subscribe("/tactic_topic", 1000, &Robot::tacticPacketCallback, &robot); // this topic needs to be remapped
+  ros::Subscriber bs_sub = n.subscribe("/belief_state", 1000, &Robot::beliefStateCallback, &robot);
   ros::spin();
 
   return 0;
